@@ -1,5 +1,0 @@
-{
-  "semi": true,
-  "plugins": ["@trivago/prettier-plugin-sort-imports"],
-  "importOrder": ["^@core/(.*)$", "<THIRD_PARTY_MODULES>", "^@/", "^[./]"]
-}
