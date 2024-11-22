@@ -9,6 +9,7 @@
     "lint": "biome lint --write ./src",
     "format": "biome format ./src --write",
     "check": "biome check --write ./src",
+    "check:only": "biome check ./src",
     "preview": "vite preview"
   },
   "dependencies": {
