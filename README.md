@@ -24,3 +24,9 @@ bun run dev
 bun run build
 bun run preview
 ```
+
+## lint + format
+
+```sh
+bun run check
+```
