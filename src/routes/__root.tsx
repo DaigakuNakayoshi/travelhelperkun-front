@@ -5,7 +5,8 @@ export const Route = createRootRoute({
   component: () => (
     <>
       <div>
-        <Link to="/">Home</Link> | <Link to="/about">About</Link>
+        <Link to="/">Home</Link> | <Link to="/about">About</Link> |{" "}
+        <Link to="/chakra-ui">chakraUi</Link>
       </div>
       <hr />
       <Outlet />
