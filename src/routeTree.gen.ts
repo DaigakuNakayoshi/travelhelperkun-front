@@ -12,6 +12,8 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
+import { Route as MapsIndexImport } from './routes/maps/index'
+import { Route as DirectionMapsIndexImport } from './routes/directionMaps/index'
 import { Route as ChakraUiIndexImport } from './routes/chakra-ui/index'
 import { Route as AboutIndexImport } from './routes/about/index'
 
@@ -20,6 +22,18 @@ import { Route as AboutIndexImport } from './routes/about/index'
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const MapsIndexRoute = MapsIndexImport.update({
+  id: '/maps/',
+  path: '/maps/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DirectionMapsIndexRoute = DirectionMapsIndexImport.update({
+  id: '/directionMaps/',
+  path: '/directionMaps/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -60,6 +74,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChakraUiIndexImport
       parentRoute: typeof rootRoute
     }
+    '/directionMaps/': {
+      id: '/directionMaps/'
+      path: '/directionMaps'
+      fullPath: '/directionMaps'
+      preLoaderRoute: typeof DirectionMapsIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/maps/': {
+      id: '/maps/'
+      path: '/maps'
+      fullPath: '/maps'
+      preLoaderRoute: typeof MapsIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -69,12 +97,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
   '/chakra-ui': typeof ChakraUiIndexRoute
+  '/directionMaps': typeof DirectionMapsIndexRoute
+  '/maps': typeof MapsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutIndexRoute
   '/chakra-ui': typeof ChakraUiIndexRoute
+  '/directionMaps': typeof DirectionMapsIndexRoute
+  '/maps': typeof MapsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -82,14 +114,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about/': typeof AboutIndexRoute
   '/chakra-ui/': typeof ChakraUiIndexRoute
+  '/directionMaps/': typeof DirectionMapsIndexRoute
+  '/maps/': typeof MapsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/chakra-ui'
+  fullPaths: '/' | '/about' | '/chakra-ui' | '/directionMaps' | '/maps'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/chakra-ui'
-  id: '__root__' | '/' | '/about/' | '/chakra-ui/'
+  to: '/' | '/about' | '/chakra-ui' | '/directionMaps' | '/maps'
+  id:
+    | '__root__'
+    | '/'
+    | '/about/'
+    | '/chakra-ui/'
+    | '/directionMaps/'
+    | '/maps/'
   fileRoutesById: FileRoutesById
 }
 
@@ -97,12 +137,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutIndexRoute: typeof AboutIndexRoute
   ChakraUiIndexRoute: typeof ChakraUiIndexRoute
+  DirectionMapsIndexRoute: typeof DirectionMapsIndexRoute
+  MapsIndexRoute: typeof MapsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutIndexRoute: AboutIndexRoute,
   ChakraUiIndexRoute: ChakraUiIndexRoute,
+  DirectionMapsIndexRoute: DirectionMapsIndexRoute,
+  MapsIndexRoute: MapsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -117,7 +161,9 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about/",
-        "/chakra-ui/"
+        "/chakra-ui/",
+        "/directionMaps/",
+        "/maps/"
       ]
     },
     "/": {
@@ -128,6 +174,12 @@ export const routeTree = rootRoute
     },
     "/chakra-ui/": {
       "filePath": "chakra-ui/index.tsx"
+    },
+    "/directionMaps/": {
+      "filePath": "directionMaps/index.tsx"
+    },
+    "/maps/": {
+      "filePath": "maps/index.tsx"
     }
   }
 }
