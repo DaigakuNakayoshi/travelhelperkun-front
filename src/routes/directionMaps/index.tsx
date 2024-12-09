@@ -54,7 +54,6 @@ function Directions() {
   useEffect(() => {
     if (!directionsService || !directionsRenderer) return;
 
-    // A->B
     directionsService
       .route({
         origin: "東京都新宿区西新宿2丁目8-1", // 都庁
