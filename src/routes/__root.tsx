@@ -6,7 +6,8 @@ export const Route = createRootRoute({
     <>
       <div>
         <Link to="/">Home</Link> | <Link to="/about">About</Link> |
-        <Link to="/chakra-ui">chakraUi</Link> |<Link to="/maps">GoogleMap</Link>
+        <Link to="/chakra-ui">chakraUi</Link> |<Link to="/maps">GoogleMap</Link>{" "}
+        |<Link to="/directionMaps">GoogleMap (direction)</Link>
       </div>
       <hr />
       <Outlet />
