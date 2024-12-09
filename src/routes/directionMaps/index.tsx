@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   APIProvider,
@@ -15,10 +16,10 @@ const API_KEY = import.meta.env.FRONTEND_GOOGLE_API_KEY;
 
 export default function Index() {
   return (
-    <div style={{ width: "100%", height: "50vh" }}>
+    <div style={{ width: "100%", height: "100vh" }}>
       <APIProvider apiKey={API_KEY}>
         <GoogleMap
-          defaultZoom={9}
+          defaultZoom={8}
           gestureHandling={"greedy"}
           fullscreenControl={false}
         >
@@ -58,9 +59,10 @@ function Directions() {
       .route({
         origin: "東京都新宿区西新宿2丁目8-1", // 都庁
         waypoints: [{ location: "東京都港区赤坂9-7-1", stopover: true }], // ミッドタウン
-        destination: "東京都千代田区丸の内一丁目９番１号", // 東京駅
+        destination: "東京都千代田区丸の内1丁目9番1号", // 東京駅
         travelMode: google.maps.TravelMode.DRIVING,
         provideRouteAlternatives: true,
+        avoidHighways: true,
       })
       .then((response) => {
         directionsRenderer.setDirections(response);
@@ -80,18 +82,33 @@ function Directions() {
   if (!leg) return null;
 
   return (
-    <div className="directions">
-      <h2>{selected.summary || "ルート"}</h2>
+    <Box
+      position="absolute"
+      top={4}
+      right={4}
+      bg="white"
+      p={4}
+      borderRadius="md"
+      shadow="lg"
+      maxW="sm"
+      maxH="80vh"
+      overflowY="auto"
+      fontSize={10}
+    >
+      <div className="directions">
+        <h2>{selected.summary || "ルート"}</h2>
 
-      {selected.legs.map((leg) => (
-        <div key={`${leg.start_address}-${leg.end_address}`}>
-          <p>
-            {leg.start_address.split(",")[0]} → {leg.end_address.split(",")[0]}
-          </p>
-          <p>距離: {leg.distance?.text}</p>
-          <p>所要時間: {leg.duration?.text}</p>
-        </div>
-      ))}
-    </div>
+        {selected.legs.map((leg) => (
+          <div key={`${leg.start_address}-${leg.end_address}`}>
+            <p>
+              {leg.start_address.split(",")[0]}
+              <br />→ {leg.end_address.split(",")[0]}
+            </p>
+            <p>距離: {leg.distance?.text}</p>
+            <p>所要時間: {leg.duration?.text}</p>
+          </div>
+        ))}
+      </div>
+    </Box>
   );
 }
