@@ -5,7 +5,7 @@ import {
   TimelineItem,
   TimelineRoot,
   TimelineTitle,
-} from "@/components/ui/timeline";
+} from '@/components/ui/timeline'
 import {
   Box,
   Button,
@@ -16,13 +16,13 @@ import {
   RadioGroup,
   Text,
   VStack,
-} from "@chakra-ui/react";
-import { createFileRoute } from "@tanstack/react-router";
-import { LuCheck, LuPackage, LuShip } from "react-icons/lu";
+} from '@chakra-ui/react'
+import { createFileRoute } from '@tanstack/react-router'
+import { LuCheck, LuPackage, LuShip } from 'react-icons/lu'
 
-export const Route = createFileRoute("/chakra-ui/")({
+export const Route = createFileRoute('/samples/chakra-ui/')({
   component: Index,
-});
+})
 
 export default function Index() {
   return (
@@ -76,7 +76,7 @@ export default function Index() {
         </HStack>
       </VStack>
     </Box>
-  );
+  )
 }
 
 // https://www.chakra-ui.com/docs/components/timeline
@@ -117,5 +117,5 @@ const TimeLineSample = () => {
         </TimelineContent>
       </TimelineItem>
     </TimelineRoot>
-  );
-};
+  )
+}
