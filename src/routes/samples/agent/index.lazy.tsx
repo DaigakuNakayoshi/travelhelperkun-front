@@ -25,6 +25,9 @@ type TravelPlan = {
   waypoints: { name: string; address: string }[];
   origin: { name: string; address: string };
   destination: { name: string; address: string };
+  google_maps_waypoints: { name: string; address: string }[];
+  google_maps_origin: { name: string; address: string };
+  google_maps_destination: { name: string; address: string };
 };
 
 function GeminiPage() {
@@ -89,6 +92,7 @@ function GeminiPage() {
     "沖縄県",
   ];
 
+  const [departurePrefecture, setDeparturePrefecture] = useState("東京都");
   const [destination, setDestination] = useState(prefectures[0]);
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [days, setDays] = useState(1);
@@ -96,7 +100,7 @@ function GeminiPage() {
   const [plan, setPlan] = useState<TravelPlan | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const additionalPromptInput = `旅行先: ${destination}, 人数: ${numberOfPeople}人, 日数: ${days}日, テーマ: ${theme}`;
+  const additionalPromptInput = `出発地: ${departurePrefecture}, 旅行先: ${destination}, 人数: ${numberOfPeople}人, 日数: ${days}日, テーマ: ${theme}`;
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -112,6 +116,23 @@ function GeminiPage() {
 
   const DestinationSelection = () => (
     <>
+      <Field label={"出発地"} mb={4} required>
+        <NativeSelectRoot size="sm" width="240px">
+          <NativeSelectField
+            placeholder="Select option"
+            value={departurePrefecture}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setDeparturePrefecture(e.currentTarget.value)
+            }
+          >
+            {prefectures.map((prefecture) => (
+              <option key={prefecture} value={prefecture}>
+                {prefecture}
+              </option>
+            ))}
+          </NativeSelectField>
+        </NativeSelectRoot>
+      </Field>
       <Field label={"旅行先"} mb={4} required>
         <NativeSelectRoot size="sm" width="240px">
           <NativeSelectField
@@ -129,7 +150,7 @@ function GeminiPage() {
           </NativeSelectField>
         </NativeSelectRoot>
       </Field>
-      <Field label={"人数"} mb={4}>
+      <Field label={"人数"} mb={4} required>
         <NumberInputRoot
           min={1}
           value={String(numberOfPeople)}
@@ -138,7 +159,7 @@ function GeminiPage() {
           <NumberInputField />
         </NumberInputRoot>
       </Field>
-      <Field label={"日数"} mb={4}>
+      <Field label={"日数"} mb={4} required>
         <NumberInputRoot
           min={1}
           value={String(days)}
@@ -147,7 +168,7 @@ function GeminiPage() {
           <NumberInputField />
         </NumberInputRoot>
       </Field>
-      <Field label={"旅行テーマを選択してください"} mb={4}>
+      <Field label={"旅行テーマを選択してください"} mb={4} required>
         <NativeSelectRoot size="sm" width="240px">
           <NativeSelectField
             placeholder="Select option"
@@ -195,9 +216,9 @@ function PlanDetail({ plan }: { plan: TravelPlan }) {
         経由地: {plan.waypoints.map((waypoint) => waypoint.name).join(", ")}
       </Text>
       <GoogleMapWithDirection
-        waypoints={plan.waypoints}
-        origin={plan.origin}
-        destination={plan.destination}
+        waypoints={plan.google_maps_waypoints}
+        origin={plan.google_maps_origin}
+        destination={plan.google_maps_destination}
       />
     </Box>
   );
