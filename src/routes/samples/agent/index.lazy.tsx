@@ -19,19 +19,14 @@ import {
   createListCollection,
 } from "@chakra-ui/react";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import {
-  APIProvider,
-  Map as GoogleMap,
-  useMap,
-  useMapsLibrary,
-} from "@vis.gl/react-google-maps";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { GoogleMapWithDirection } from "../../../components/samples/agent/GoogleMapWithDirection";
 
 export const Route = createLazyFileRoute("/samples/agent/")({
   component: GeminiPage,
 });
 
-type Plan = {
+type TravelPlan = {
   title: string;
   description: string;
   steps: string[];
@@ -107,7 +102,7 @@ function GeminiPage() {
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [days, setDays] = useState(1);
   const [theme, setTheme] = useState(travelThemes[0]);
-  const [plan, setPlan] = useState<Plan | null>(null);
+  const [plan, setPlan] = useState<TravelPlan | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const additionalPromptInput = `旅行先: ${destination}, 人数: ${numberOfPeople}人, 日数: ${days}日, テーマ: ${theme}`;
@@ -124,8 +119,8 @@ function GeminiPage() {
     }
   };
 
-  return (
-    <Box p={4}>
+  const DestinationSelection = () => (
+    <>
       <Field label={"旅行先"} mb={4} required>
         <SelectRoot
           collection={createListCollection({
@@ -190,19 +185,23 @@ function GeminiPage() {
           </SelectContent>
         </SelectRoot>
       </Field>
+    </>
+  );
+
+  return (
+    <Box p={4}>
+      <DestinationSelection />
       <Button type="button" onClick={handleClick} disabled={isLoading}>
         旅行プランを作成
       </Button>
       <Box mt={4}>
-        {isLoading ? <Spinner /> : plan ? <Plan plan={plan} /> : null}
+        {isLoading ? <Spinner /> : plan ? <PlanDetail plan={plan} /> : null}
       </Box>
     </Box>
   );
 }
 
-const API_KEY = import.meta.env.FRONTEND_GOOGLE_API_KEY;
-
-function Plan({ plan }: { plan: Plan }) {
+function PlanDetail({ plan }: { plan: TravelPlan }) {
   return (
     <Box>
       <Text fontWeight="bold">{plan.title}</Text>
@@ -212,143 +211,15 @@ function Plan({ plan }: { plan: Plan }) {
           <Text key={step}>{step}</Text>
         ))}
       </Box>
-      <Text mt={2}>Travel Cost: {plan.travel_cost}</Text>
+      <Text mt={2}>旅費: {plan.travel_cost}</Text>
       <Text mt={2}>
-        Waypoints: {plan.waypoints.map((waypoint) => waypoint.name).join(", ")}
+        経由地: {plan.waypoints.map((waypoint) => waypoint.name).join(", ")}
       </Text>
-      <div style={{ width: "100%", height: "500px" }}>
-        <APIProvider apiKey={API_KEY}>
-          <GoogleMap
-            defaultZoom={8}
-            gestureHandling={"greedy"}
-            fullscreenControl={false}
-          >
-            <Directions
-              waypoints={plan.waypoints}
-              origin={plan.origin}
-              destination={plan.destination}
-            />
-          </GoogleMap>
-        </APIProvider>
-      </div>
-      <Directions
+      <GoogleMapWithDirection
         waypoints={plan.waypoints}
         origin={plan.origin}
         destination={plan.destination}
       />
-    </Box>
-  );
-}
-
-// @see: https://developers.google.com/maps/documentation/javascript/directions?hl=ja
-function Directions({
-  waypoints,
-  origin,
-  destination,
-}: {
-  waypoints?: { name: string; address: string }[];
-  origin?: { name: string; address: string };
-  destination?: { name: string; address: string };
-}) {
-  const map = useMap();
-  const routesLibrary = useMapsLibrary("routes");
-  const [directionsService, setDirectionsService] =
-    useState<google.maps.DirectionsService>();
-  const [directionsRenderer, setDirectionsRenderer] =
-    useState<google.maps.DirectionsRenderer>();
-  const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const [routeIndex] = useState(0);
-  const selected = routes[routeIndex];
-  const leg = selected?.legs[0];
-
-  // Initialize directions service and renderer
-  useEffect(() => {
-    if (!routesLibrary || !map) return;
-    setDirectionsService(new routesLibrary.DirectionsService());
-    setDirectionsRenderer(new routesLibrary.DirectionsRenderer({ map }));
-  }, [routesLibrary, map]);
-
-  // Use directions service
-  useEffect(() => {
-    if (
-      !directionsService ||
-      !directionsRenderer ||
-      !waypoints ||
-      !origin ||
-      !destination
-    )
-      return;
-
-    const waypointsForDirections = waypoints.map((waypoint) => ({
-      location: waypoint.address,
-      stopover: true,
-    }));
-
-    directionsService
-      .route({
-        origin: origin.address || origin.name,
-        waypoints: waypointsForDirections,
-        destination: destination.address || destination.name,
-        travelMode: google.maps.TravelMode.DRIVING,
-        provideRouteAlternatives: true,
-        avoidHighways: true,
-      })
-      .then((response) => {
-        directionsRenderer.setDirections(response);
-        setRoutes(response.routes);
-      });
-
-    return () => directionsRenderer.setMap(null);
-  }, [directionsService, directionsRenderer, waypoints, origin, destination]);
-
-  // Update direction route
-  useEffect(() => {
-    if (!directionsRenderer) return;
-
-    directionsRenderer.setRouteIndex(routeIndex);
-  }, [routeIndex, directionsRenderer]);
-
-  if (!leg) return null;
-
-  return (
-    <Box
-      bg="white"
-      p={4}
-      borderRadius="md"
-      shadow="lg"
-      maxW="sm"
-      maxH="80vh"
-      overflowY="auto"
-      fontSize={10}
-    >
-      <div className="directions">
-        <h2>{selected.summary || "ルート"}</h2>
-
-        {selected.legs.map((leg, index) => (
-          <div key={`${leg.start_address}-${leg.end_address}`}>
-            <p>
-              {index === 0 ? origin?.name : waypoints?.[index]?.name} (
-              {routes.length > 0 && index === 0 ? "Start" : "Waypoint"}
-              )
-              <br />
-              {leg.start_address.split(",")[0]}
-              <br />→{" "}
-              {index === selected.legs.length - 1
-                ? destination?.name
-                : waypoints?.[index + 1]?.name}{" "}
-              (
-              {routes.length > 0 && index === selected.legs.length - 1
-                ? "End"
-                : "Waypoint"}
-              )
-              <br />
-              {leg.end_address.split(",")[0]}
-            </p>
-            <p>距離: {leg.distance?.text}</p>
-            <p>所要時間: {leg.duration?.text}</p>
-          </div>
-        ))}
-      </div>
     </Box>
   );
 }
