@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/number-input";
 import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { GoogleMapWithDirection } from "../../../components/samples/agent/GoogleMapWithDirection";
 
 export const Route = createLazyFileRoute("/samples/agent/")({
@@ -39,6 +39,15 @@ type TravelPlan = {
   google_maps_waypoints: { name: string; address: string }[];
   google_maps_origin: { name: string; address: string };
   google_maps_destination: { name: string; address: string };
+};
+
+type HashObject = {
+  departurePrefecture: string;
+  destination: string;
+  numberOfPeople: number;
+  days: number;
+  theme: string;
+  userInterest: string;
 };
 
 function GeminiPage() {
@@ -103,16 +112,18 @@ function GeminiPage() {
     "沖縄県",
   ];
 
-  const [departurePrefecture, setDeparturePrefecture] = useState("東京都");
-  const [destination, setDestination] = useState(prefectures[0]);
-  const [numberOfPeople, setNumberOfPeople] = useState(1);
-  const [days, setDays] = useState(1);
-  const [theme, setTheme] = useState(travelThemes[0]);
-  const [userInterest, setUserInterest] = useState("");
+  const [formState, setFormState] = useState<HashObject>({
+    departurePrefecture: "東京都",
+    destination: prefectures[0],
+    numberOfPeople: 1,
+    days: 1,
+    theme: travelThemes[0],
+    userInterest: "",
+  });
   const [plan, setPlan] = useState<TravelPlan | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const additionalPromptInput = `出発地: ${departurePrefecture}, 旅行先: ${destination}, 人数: ${numberOfPeople}人, 日数: ${days}日, テーマ: ${theme}, ユーザーの興味関心: ${userInterest}`;
+  const additionalPromptInput = `出発地: ${formState.departurePrefecture}, 旅行先: ${formState.destination}, 人数: ${formState.numberOfPeople}人, 日数: ${formState.days}日, テーマ: ${formState.theme}, ユーザーの興味関心: ${formState.userInterest}`;
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -132,9 +143,12 @@ function GeminiPage() {
         <NativeSelectRoot size="sm" width="240px">
           <NativeSelectField
             placeholder="Select option"
-            value={departurePrefecture}
+            value={formState.departurePrefecture}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setDeparturePrefecture(e.currentTarget.value)
+              setFormState({
+                ...formState,
+                departurePrefecture: e.currentTarget.value,
+              })
             }
           >
             {prefectures.map((prefecture) => (
@@ -149,9 +163,9 @@ function GeminiPage() {
         <NativeSelectRoot size="sm" width="240px">
           <NativeSelectField
             placeholder="Select option"
-            value={destination}
+            value={formState.destination}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setDestination(e.currentTarget.value)
+              setFormState({ ...formState, destination: e.currentTarget.value })
             }
           >
             {prefectures.map((prefecture) => (
@@ -165,8 +179,10 @@ function GeminiPage() {
       <Field label={"人数"} mb={4} required>
         <NumberInputRoot
           min={1}
-          value={String(numberOfPeople)}
-          onValueChange={(e) => setNumberOfPeople(Number(e.value))}
+          value={String(formState.numberOfPeople)}
+          onValueChange={(e) =>
+            setFormState({ ...formState, numberOfPeople: Number(e.value) })
+          }
         >
           <NumberInputField />
         </NumberInputRoot>
@@ -174,8 +190,10 @@ function GeminiPage() {
       <Field label={"日数"} mb={4} required>
         <NumberInputRoot
           min={1}
-          value={String(days)}
-          onValueChange={(e) => setDays(Number(e.value))}
+          value={String(formState.days)}
+          onValueChange={(e) =>
+            setFormState({ ...formState, days: Number(e.value) })
+          }
         >
           <NumberInputField />
         </NumberInputRoot>
@@ -184,9 +202,9 @@ function GeminiPage() {
         <NativeSelectRoot size="sm" width="240px">
           <NativeSelectField
             placeholder="Select option"
-            value={theme}
+            value={formState.theme}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setTheme(e.currentTarget.value)
+              setFormState({ ...formState, theme: e.currentTarget.value })
             }
           >
             {travelThemes.map((theme) => (
@@ -200,8 +218,10 @@ function GeminiPage() {
       <Field label={"気になること（イベント、場所等）"} mb={4}>
         <Input
           type="text"
-          defaultValue={userInterest}
-          onBlur={(e) => setUserInterest(e.currentTarget.value)}
+          defaultValue={formState.userInterest}
+          onBlur={(e) =>
+            setFormState({ ...formState, userInterest: e.currentTarget.value })
+          }
           width="500px"
         />
       </Field>
