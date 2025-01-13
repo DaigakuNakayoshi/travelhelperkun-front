@@ -1,23 +1,14 @@
+import { agent } from "@/agents/travelPlanner";
 import { Field } from "@/components/ui/field";
+import {
+  NativeSelectField,
+  NativeSelectRoot,
+} from "@/components/ui/native-select";
 import {
   NumberInputField,
   NumberInputRoot,
 } from "@/components/ui/number-input";
-import {
-  SelectContent,
-  SelectItem,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-} from "@/components/ui/select";
-import { agent } from "@/agents/travelPlanner";
-import {
-  Box,
-  Button,
-  Spinner,
-  Text,
-  createListCollection,
-} from "@chakra-ui/react";
+import { Box, Button, Spinner, Text } from "@chakra-ui/react";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { GoogleMapWithDirection } from "../../../components/samples/agent/GoogleMapWithDirection";
@@ -122,27 +113,21 @@ function GeminiPage() {
   const DestinationSelection = () => (
     <>
       <Field label={"旅行先"} mb={4} required>
-        <SelectRoot
-          collection={createListCollection({
-            items: prefectures.map((prefecture) => ({
-              label: prefecture,
-              value: prefecture,
-            })),
-          })}
-          value={[destination]}
-          onValueChange={(e) => setDestination(e.value[0])}
-        >
-          <SelectTrigger>
-            <SelectValueText placeholder="例: 北海道" />
-          </SelectTrigger>
-          <SelectContent>
-            {prefectures.map((item) => (
-              <SelectItem key={item} item={{ label: item, value: item }}>
-                {item}
-              </SelectItem>
+        <NativeSelectRoot size="sm" width="240px">
+          <NativeSelectField
+            placeholder="Select option"
+            value={destination}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setDestination(e.currentTarget.value)
+            }
+          >
+            {prefectures.map((prefecture) => (
+              <option key={prefecture} value={prefecture}>
+                {prefecture}
+              </option>
             ))}
-          </SelectContent>
-        </SelectRoot>
+          </NativeSelectField>
+        </NativeSelectRoot>
       </Field>
       <Field label={"人数"} mb={4}>
         <NumberInputRoot
@@ -163,27 +148,21 @@ function GeminiPage() {
         </NumberInputRoot>
       </Field>
       <Field label={"旅行テーマを選択してください"} mb={4}>
-        <SelectRoot
-          collection={createListCollection({
-            items: travelThemes.map((theme) => ({
-              label: theme,
-              value: theme,
-            })),
-          })}
-          value={[theme]}
-          onValueChange={(e) => setTheme(e.value[0])}
-        >
-          <SelectTrigger>
-            <SelectValueText />
-          </SelectTrigger>
-          <SelectContent>
+        <NativeSelectRoot size="sm" width="240px">
+          <NativeSelectField
+            placeholder="Select option"
+            value={theme}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setTheme(e.currentTarget.value)
+            }
+          >
             {travelThemes.map((theme) => (
-              <SelectItem key={theme} item={{ label: theme, value: theme }}>
+              <option key={theme} value={theme}>
                 {theme}
-              </SelectItem>
+              </option>
             ))}
-          </SelectContent>
-        </SelectRoot>
+          </NativeSelectField>
+        </NativeSelectRoot>
       </Field>
     </>
   );
