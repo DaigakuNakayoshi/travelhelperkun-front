@@ -21,7 +21,14 @@ type TravelPlan = {
   title: string;
   description: string;
   steps: string[];
-  travel_cost: string;
+  travel_cost: {
+    total: string;
+    transportation: string;
+    accommodation: string;
+    food: string;
+    activities: string;
+    other: string;
+  };
   waypoints: { name: string; address: string }[];
   origin: { name: string; address: string };
   destination: { name: string; address: string };
@@ -211,7 +218,13 @@ function PlanDetail({ plan }: { plan: TravelPlan }) {
           <Text key={step}>{step}</Text>
         ))}
       </Box>
-      <Text mt={2}>旅費: {plan.travel_cost}</Text>
+      <Text mt={2}>旅費:</Text>
+      <Text mt={1}>合計: {plan.travel_cost.total}</Text>
+      <Text mt={1}>交通費: {plan.travel_cost.transportation}</Text>
+      <Text mt={1}>宿泊費: {plan.travel_cost.accommodation}</Text>
+      <Text mt={1}>食費: {plan.travel_cost.food}</Text>
+      <Text mt={1}>アクティビティ費: {plan.travel_cost.activities}</Text>
+      <Text mt={1}>その他: {plan.travel_cost.other}</Text>
       <Text mt={2}>
         経由地: {plan.waypoints.map((waypoint) => waypoint.name).join(", ")}
       </Text>

@@ -18,7 +18,16 @@ const planSchema = z.object({
     title: z.string().describe("title of the travel plan"),
     description: z.string().describe("description of the travel plan"),
     steps: z.array(z.string()).describe("steps of the travel plan"),
-    travel_cost: z.string().describe("estimated travel cost"),
+    travel_cost: z
+      .object({
+        total: z.string().describe("total estimated travel cost"),
+        transportation: z.string().describe("estimated transportation cost"),
+        accommodation: z.string().describe("estimated accommodation cost"),
+        food: z.string().describe("estimated food cost"),
+        activities: z.string().describe("estimated activities cost"),
+        other: z.string().describe("other estimated costs"),
+      })
+      .describe("estimated travel cost"),
     waypoints: z
       .array(
         z.object({
