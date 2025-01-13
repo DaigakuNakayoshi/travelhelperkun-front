@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/number-input";
 import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { GoogleMapWithDirection } from "../../../components/samples/agent/GoogleMapWithDirection";
 
 export const Route = createLazyFileRoute("/samples/agent/")({
@@ -48,6 +48,7 @@ type HashObject = {
   days: number;
   theme: string;
   userInterest: string;
+  selectedMonth: number;
 };
 
 function GeminiPage() {
@@ -119,11 +120,12 @@ function GeminiPage() {
     days: 1,
     theme: travelThemes[0],
     userInterest: "",
+    selectedMonth: 7,
   });
   const [plan, setPlan] = useState<TravelPlan | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const additionalPromptInput = `出発地: ${formState.departurePrefecture}, 旅行先: ${formState.destination}, 人数: ${formState.numberOfPeople}人, 日数: ${formState.days}日, テーマ: ${formState.theme}, ユーザーの興味関心: ${formState.userInterest}`;
+  const additionalPromptInput = `出発地: ${formState.departurePrefecture}, 旅行先: ${formState.destination}, 人数: ${formState.numberOfPeople}人, 日数: ${formState.days}日, テーマ: ${formState.theme}, 旅行希望月: ${formState.selectedMonth}月, ユーザーの興味関心: ${formState.userInterest}`;
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -197,6 +199,29 @@ function GeminiPage() {
         >
           <NumberInputField />
         </NumberInputRoot>
+      </Field>
+      <Field label={"旅行希望月"} mb={4} required>
+        <NativeSelectRoot size="sm" width="240px">
+          <NativeSelectField
+            placeholder="Select option"
+            value={formState.selectedMonth}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setFormState({
+                ...formState,
+                selectedMonth: Number(e.currentTarget.value),
+              })
+            }
+          >
+            {Array.from({ length: 12 }, (_, i) => {
+              const month = i + 1;
+              return (
+                <option key={month} value={String(month)}>
+                  {month}月
+                </option>
+              );
+            })}
+          </NativeSelectField>
+        </NativeSelectRoot>
       </Field>
       <Field label={"旅行テーマを選択してください"} mb={4} required>
         <NativeSelectRoot size="sm" width="240px">
