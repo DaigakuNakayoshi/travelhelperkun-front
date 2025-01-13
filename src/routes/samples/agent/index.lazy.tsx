@@ -8,7 +8,7 @@ import {
   NumberInputField,
   NumberInputRoot,
 } from "@/components/ui/number-input";
-import { Box, Button, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { GoogleMapWithDirection } from "../../../components/samples/agent/GoogleMapWithDirection";
@@ -20,7 +20,10 @@ export const Route = createLazyFileRoute("/samples/agent/")({
 type TravelPlan = {
   title: string;
   description: string;
-  steps: { stepPerDay: number; detailSteps: { time: string; description: string }[] }[];
+  steps: {
+    stepPerDay: number;
+    detailSteps: { time: string; description: string }[];
+  }[];
   travel_cost: {
     total: string;
     transportation: string;
@@ -28,6 +31,7 @@ type TravelPlan = {
     food: string;
     activities: string;
     other: string;
+    total_per_person: string;
   };
   waypoints: { name: string; address: string }[];
   origin: { name: string; address: string };
@@ -104,10 +108,11 @@ function GeminiPage() {
   const [numberOfPeople, setNumberOfPeople] = useState(1);
   const [days, setDays] = useState(1);
   const [theme, setTheme] = useState(travelThemes[0]);
+  const [userInterest, setUserInterest] = useState("");
   const [plan, setPlan] = useState<TravelPlan | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const additionalPromptInput = `出発地: ${departurePrefecture}, 旅行先: ${destination}, 人数: ${numberOfPeople}人, 日数: ${days}日, テーマ: ${theme}`;
+  const additionalPromptInput = `出発地: ${departurePrefecture}, 旅行先: ${destination}, 人数: ${numberOfPeople}人, 日数: ${days}日, テーマ: ${theme}, ユーザーの興味関心: ${userInterest}`;
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -192,6 +197,14 @@ function GeminiPage() {
           </NativeSelectField>
         </NativeSelectRoot>
       </Field>
+      <Field label={"気になること（イベント、場所等）"} mb={4}>
+        <Input
+          type="text"
+          defaultValue={userInterest}
+          onBlur={(e) => setUserInterest(e.currentTarget.value)}
+          width="500px"
+        />
+      </Field>
     </>
   );
 
@@ -220,9 +233,7 @@ function PlanDetail({ plan }: { plan: TravelPlan }) {
       <Box mt={2}>
         {plan.steps.map((step, stepIndex) => (
           <Box key={`${stepIndex}-${step.stepPerDay}`} mt={2}>
-            <Text fontWeight="bold">
-              {step.stepPerDay}日目:
-            </Text>
+            <Text fontWeight="bold">{step.stepPerDay}日目:</Text>
             {step.detailSteps.map((detailStep, detailStepIndex) => (
               <Text key={`${detailStepIndex}-${detailStep.description}`} mt={1}>
                 {detailStep.time} {detailStep.description}
@@ -235,6 +246,7 @@ function PlanDetail({ plan }: { plan: TravelPlan }) {
         旅費:
       </Text>
       <Text mt={1}>合計: {plan.travel_cost.total}</Text>
+      <Text mt={1}>一人当たり: {plan.travel_cost.total_per_person}</Text>
       <Text mt={1}>交通費: {plan.travel_cost.transportation}</Text>
       <Text mt={1}>宿泊費: {plan.travel_cost.accommodation}</Text>
       <Text mt={1}>食費: {plan.travel_cost.food}</Text>

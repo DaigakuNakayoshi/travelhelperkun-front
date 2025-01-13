@@ -40,6 +40,7 @@ const planSchema = z.object({
         food: z.string().describe("estimated food cost"),
         activities: z.string().describe("estimated activities cost"),
         other: z.string().describe("other estimated costs"),
+        total_per_person: z.string().describe("total estimated travel cost per person"),
       })
       .describe("estimated travel cost"),
     waypoints: z
@@ -99,11 +100,13 @@ const prompt = PromptTemplate.fromTemplate(
   - 上記の情報を用いて、旅行プランを作成してください。出発地、最終目的地は、特別な理由（新幹線で到着して飛行機で帰るなど）がない限り、同じ場所か非常に近い場所になるようにしてください。経由地は、緯度経度変換させるので、住所を取得してください。もし、住所が不明な場合は、場所の正式名称を返却してください。「現在地」という文字列は使用しないでください。
   - 旅行プランの最後は出発地に戻るようにしてください。
   - 旅行費用は出発地から目的地までの往復費用を含めてください。現実的な価格で算出してください。
+  - 旅行費用は一人当たりの費用も算出してください。total_per_personフィールドに記載してください。
   - 各移動手段の所要時間も考慮して、無理のない旅行プランを作成してください。
   - 過度に楽観的な旅行プランは避けてください。
   - Google Mapの経路は、旅行先の経由地のみを含めてください。出発地は含めないでください。
   - Google Mapの出発地と目的地は、旅行先の出発地と目的地のみを含めてください。
   - 検索内容は交通手段、宿泊施設、予算を含みます
+  - ユーザーの興味関心を考慮して、旅行プランを作成してください。
   
   # 表示する内容
 
