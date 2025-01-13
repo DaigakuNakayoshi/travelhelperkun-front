@@ -40,7 +40,9 @@ const planSchema = z.object({
         food: z.string().describe("estimated food cost"),
         activities: z.string().describe("estimated activities cost"),
         other: z.string().describe("other estimated costs"),
-        total_per_person: z.string().describe("total estimated travel cost per person"),
+        total_per_person: z
+          .string()
+          .describe("total estimated travel cost per person"),
       })
       .describe("estimated travel cost"),
     waypoints: z
@@ -77,13 +79,19 @@ const planSchema = z.object({
     google_maps_origin: z
       .object({
         name: z.string().describe("name of the starting point for google maps"),
-        address: z.string().describe("address of the starting point for google maps"),
+        address: z
+          .string()
+          .describe("address of the starting point for google maps"),
       })
       .describe("starting point of the travel plan for google maps"),
     google_maps_destination: z
       .object({
-        name: z.string().describe("name of the final destination for google maps"),
-        address: z.string().describe("address of the final destination for google maps"),
+        name: z
+          .string()
+          .describe("name of the final destination for google maps"),
+        address: z
+          .string()
+          .describe("address of the final destination for google maps"),
       })
       .describe("final destination of the travel plan for google maps"),
   }),
@@ -93,7 +101,7 @@ const outputParser = StructuredOutputParser.fromZodSchema(planSchema);
 
 // TODO: プロンプトはチューニングが必要
 const prompt = PromptTemplate.fromTemplate(
-  `# 前提条件
+  `# 必要要件
   
   - あなたは旅行プランを考えるプランナーです。
   - 渡す情報は日程、出発地（都道府県）、目的地（空港、新幹線駅など）、希望する観光内容、コンセプト
@@ -110,12 +118,16 @@ const prompt = PromptTemplate.fromTemplate(
   
   # 表示する内容
 
-  - 出発地～目的地への旅行プランであることと、旅行プランの概要を20字程度で簡潔に書いてください
-  - テーマがある場合は記載（贅沢な旅行や自然を楽しむ旅行など）
-  - 各日程ごとに行く場所と時系列を大項目で、詳細な内容（目安の時間）などを小項目で記載
-  - 日程と日程の間の移動手段は大項目で記載
-  - そのほか、時間内は難しいがおすすめの観光地・食事があればその他欄として記載
-  - 各項目を行う上での予算を別の見出しで記載
+  - 出発地～目的地への旅行プランであること
+  - 旅行プランの概要を100文字程度で簡潔に記載すること
+    - 特に以下は考慮された概要にしてください
+      - 何泊何日、何人の旅行か
+      - 重要視したポイントはどこか
+  - テーマがある場合は記載すること（贅沢な旅行や自然を楽しむ旅行など）
+  - 各日程ごとに行く場所と時系列を大項目で、詳細な内容（目安の時間）などを小項目で記載すること
+  - 日程と日程の間の移動手段は大項目で記載すること
+  - そのほか、時間内は難しいがおすすめの観光地・食事があればその他欄として記載すること
+  - 各項目を行う上での予算を別の見出しで記載すること
   - お店の紹介をする際は参考URLとして記載する
   
   {format_instructions}
