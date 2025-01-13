@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValueText,
 } from "@/components/ui/select";
-import { agent } from "@/langchain/gemini";
+import { agent } from "@/agents/travelPlanner";
 import {
   Box,
   Button,
