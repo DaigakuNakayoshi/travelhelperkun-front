@@ -17,7 +17,21 @@ const planSchema = z.object({
   plan: z.object({
     title: z.string().describe("title of the travel plan"),
     description: z.string().describe("description of the travel plan"),
-    steps: z.array(z.string()).describe("steps of the travel plan"),
+    steps: z
+      .array(
+        z.object({
+          stepPerDay: z.number().describe("day of the travel plan"),
+          detailSteps: z
+            .array(
+              z.object({
+                time: z.string().describe("time of the step"),
+                description: z.string().describe("description of the step"),
+              }),
+            )
+            .describe("steps of the day"),
+        }),
+      )
+      .describe("steps of the travel plan, grouped by day, with time"),
     travel_cost: z
       .object({
         total: z.string().describe("total estimated travel cost"),

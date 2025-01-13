@@ -20,7 +20,7 @@ export const Route = createLazyFileRoute("/samples/agent/")({
 type TravelPlan = {
   title: string;
   description: string;
-  steps: string[];
+  steps: { stepPerDay: number; detailSteps: { time: string; description: string }[] }[];
   travel_cost: {
     total: string;
     transportation: string;
@@ -197,10 +197,12 @@ function GeminiPage() {
 
   return (
     <Box p={4}>
-      <DestinationSelection />
-      <Button type="button" onClick={handleClick} disabled={isLoading}>
-        旅行プランを作成
-      </Button>
+      <Box>
+        <DestinationSelection />
+        <Button type="button" onClick={handleClick} disabled={isLoading}>
+          旅行プランを作成
+        </Button>
+      </Box>
       <Box mt={4}>
         {isLoading ? <Spinner /> : plan ? <PlanDetail plan={plan} /> : null}
       </Box>
@@ -210,15 +212,28 @@ function GeminiPage() {
 
 function PlanDetail({ plan }: { plan: TravelPlan }) {
   return (
-    <Box>
-      <Text fontWeight="bold">{plan.title}</Text>
-      <Text>{plan.description}</Text>
+    <>
+      <Text fontWeight="bold" fontSize="2xl">
+        {plan.title}
+      </Text>
+      <Text fontSize="lg">{plan.description}</Text>
       <Box mt={2}>
-        {plan.steps.map((step: string) => (
-          <Text key={step}>{step}</Text>
+        {plan.steps.map((step, stepIndex) => (
+          <Box key={`${stepIndex}-${step.stepPerDay}`} mt={2}>
+            <Text fontWeight="bold">
+              {step.stepPerDay}日目:
+            </Text>
+            {step.detailSteps.map((detailStep, detailStepIndex) => (
+              <Text key={`${detailStepIndex}-${detailStep.description}`} mt={1}>
+                {detailStep.time} {detailStep.description}
+              </Text>
+            ))}
+          </Box>
         ))}
       </Box>
-      <Text mt={2}>旅費:</Text>
+      <Text mt={2} fontWeight="bold">
+        旅費:
+      </Text>
       <Text mt={1}>合計: {plan.travel_cost.total}</Text>
       <Text mt={1}>交通費: {plan.travel_cost.transportation}</Text>
       <Text mt={1}>宿泊費: {plan.travel_cost.accommodation}</Text>
@@ -233,6 +248,6 @@ function PlanDetail({ plan }: { plan: TravelPlan }) {
         origin={plan.google_maps_origin}
         destination={plan.google_maps_destination}
       />
-    </Box>
+    </>
   );
 }
