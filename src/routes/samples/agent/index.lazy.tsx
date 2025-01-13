@@ -181,23 +181,23 @@ function Directions({
       <div className="directions">
         <h2>{selected.summary || "ルート"}</h2>
 
-        {selected.legs.map((leg) => (
+        {selected.legs.map((leg, index) => (
           <div key={`${leg.start_address}-${leg.end_address}`}>
             <p>
-              {leg.start_address.split(",")[0]} (
-              {waypoints &&
-              ((leg.start_address.split(",")?.[0] as string) || "") ===
-                ((waypoints?.[0]?.address as string) || "")
+              {index === 0 ? origin?.name : waypoints?.[index]?.name} (
+              {routes.length > 0 && index === 0
                 ? "Start"
                 : "Waypoint"}
               )
-              <br />→ {leg.end_address.split(",")[0]} (
-              {waypoints &&
-              ((leg.end_address.split(",")?.[0] as string) || "") ===
-                ((waypoints?.[waypoints.length - 1]?.address as string) || "")
+              <br />
+              {leg.start_address.split(",")[0]}
+              <br />→ {index === selected.legs.length - 1 ? destination?.name : waypoints?.[index+1]?.name} (
+              {routes.length > 0 && index === selected.legs.length - 1
                 ? "End"
                 : "Waypoint"}
               )
+              <br />
+              {leg.end_address.split(",")[0]}
             </p>
             <p>距離: {leg.distance?.text}</p>
             <p>所要時間: {leg.duration?.text}</p>
