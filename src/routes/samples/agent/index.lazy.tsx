@@ -1,4 +1,5 @@
 import { agent } from "@/agents/travelPlanner";
+import { GoogleMapWithDirection } from "@/components/samples/agent/GoogleMapWithDirection";
 import { Field } from "@/components/ui/field";
 import {
   NativeSelectField,
@@ -11,7 +12,6 @@ import {
 import { Box, Button, Input, Spinner, Text } from "@chakra-ui/react";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { GoogleMapWithDirection } from "../../../components/samples/agent/GoogleMapWithDirection";
 
 export const Route = createLazyFileRoute("/samples/agent/")({
   component: GeminiPage,
