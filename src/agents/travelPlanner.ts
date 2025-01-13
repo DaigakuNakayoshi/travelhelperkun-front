@@ -99,7 +99,6 @@ const planSchema = z.object({
 
 const outputParser = StructuredOutputParser.fromZodSchema(planSchema);
 
-// TODO: プロンプトはチューニングが必要
 const prompt = PromptTemplate.fromTemplate(
   `# 必要要件
   
