@@ -20,7 +20,7 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import { LuCheck, LuPackage, LuShip } from "react-icons/lu";
 
-export const Route = createFileRoute("/chakra-ui/")({
+export const Route = createFileRoute("/samples/chakra-ui/")({
   component: Index,
 });
 

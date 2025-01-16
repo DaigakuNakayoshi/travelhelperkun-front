@@ -1,11 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   APIProvider,
   AdvancedMarker,
   Map as GoogleMap,
 } from "@vis.gl/react-google-maps";
 
-export const Route = createFileRoute("/maps/")({
+export const Route = createLazyFileRoute("/samples/maps/")({
   component: Index,
 });
 

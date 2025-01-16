@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createLazyFileRoute } from "@tanstack/react-router";
 import {
   APIProvider,
   Map as GoogleMap,
@@ -8,7 +8,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 
-export const Route = createFileRoute("/directionMaps/")({
+export const Route = createLazyFileRoute("/samples/directionMaps/")({
   component: Index,
 });
 
@@ -39,7 +39,7 @@ function Directions() {
   const [directionsRenderer, setDirectionsRenderer] =
     useState<google.maps.DirectionsRenderer>();
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
-  const [routeIndex, setRouteIndex] = useState(0);
+  const [routeIndex] = useState(0);
   const selected = routes[routeIndex];
   const leg = selected?.legs[0];
 
