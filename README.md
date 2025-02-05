@@ -61,5 +61,5 @@ o（Web画面への遷移）
 ### ブラウザ（e.g. Chrome）に遷移するため、下記URLを指定
 
 ```sh
-http://localhost:4173/samples/
+http://localhost:5173/samples/
 ```
