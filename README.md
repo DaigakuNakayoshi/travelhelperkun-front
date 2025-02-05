@@ -34,13 +34,13 @@ bun run check
 ## サンプルページの閲覧方法
 
 ```sh
-bun run build
-bun run preview
+bun run dev
 ```
 
+### CLI画面にてオプション入力の表示が出るため、下記を選択することでWebページが開く
 ```sh
-h
-o
+h（helpの表示）
+o（Web画面への遷移）
 ```
 
 ### Chromeに遷移するため、下記URLを指定
