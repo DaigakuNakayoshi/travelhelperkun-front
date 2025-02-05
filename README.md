@@ -2,6 +2,12 @@
 
 ## 開発環境構築
 
+### リポジトリをクローンする
+
+```sh
+git clone git@github.com:DaigakuNakayoshi/travelhelperkun-front.git
+```
+
 ### bun のインストール
 
 https://bun.sh/docs/installation
@@ -10,12 +16,6 @@ https://bun.sh/docs/installation
 
 ```sh
 bun install
-```
-
-### gitをcloneする
-
-```sh
-git clone git@github.com:DaigakuNakayoshi/travelhelperkun-front.git
 ```
 
 ### 開発環境へ移動
