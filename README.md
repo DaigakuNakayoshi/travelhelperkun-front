@@ -12,10 +12,10 @@ https://bun.sh/docs/installation
 bun install
 ```
 
-### git の　clone
+### gitをcloneする
 
 ```sh
-git clone https://github.com/DaigakuNakayoshi/travelhelperkun-front.git
+git clone git@github.com:DaigakuNakayoshi/travelhelperkun-front.git
 ```
 
 ### 開発環境へ移動
