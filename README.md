@@ -12,6 +12,18 @@ https://bun.sh/docs/installation
 bun install
 ```
 
+### gitをcloneする
+
+```sh
+git clone git@github.com:DaigakuNakayoshi/travelhelperkun-front.git
+```
+
+### 開発環境へ移動
+
+```sh
+cd travelhelperkun-front
+```
+
 ### dev サーバー起動
 
 ```sh
