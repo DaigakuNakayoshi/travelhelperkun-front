@@ -30,3 +30,20 @@ bun run preview
 ```sh
 bun run check
 ```
+
+## サンプルページの閲覧方法
+
+```sh
+bun run build
+bun run preview
+```
+
+```sh
+h
+o
+```
+
+### Chromeに遷移するため、下記URLを指定
+```sh
+http://localhost:4173/samples/
+```
