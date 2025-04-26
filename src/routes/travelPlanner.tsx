@@ -1,48 +1,25 @@
-import { BasicInfoForm } from "@/components/travel/BasicInfoForm";
-import { TravelPlanResult } from "@/components/travel/TravelPlanResult";
-import { TravelThemeSelector } from "@/components/travel/TravelThemeSelector";
-import { useColorModeValue } from "@/components/ui/color-mode";
-import { useTravelPlanner } from "@/hooks/travel/useTravelPlanner";
-import { Button, Center, Container } from "@chakra-ui/react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Box, Container } from "@chakra-ui/react";
+import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
 export const Route = createFileRoute("/travelPlanner")({
-  component: RouteComponent,
+  component: TravelPlannerLayout,
 });
 
-function RouteComponent() {
-  const {
-    formData,
-    plan,
-    isLoading,
-    isValid,
-    handleInputChange,
-    handleThemeSelect,
-    generatePlan,
-  } = useTravelPlanner();
-
+function TravelPlannerLayout() {
   return (
     <Container maxW="container.lg" py={6}>
-      <BasicInfoForm formData={formData} onInputChange={handleInputChange} />
-      <TravelThemeSelector
-        formData={formData}
-        onThemeSelect={handleThemeSelect}
-      />
-
-      <Center mt={8} mb={4}>
-        <Button
-          onClick={generatePlan}
-          size="md"
-          px={10}
-          borderWidth="1px"
-          loading={isLoading}
-          disabled={!isValid}
-        >
-          生成ボタン
-        </Button>
-      </Center>
-
-      <TravelPlanResult plan={plan} isLoading={isLoading} />
+      <Box mb={4}>
+        <Link to="/travelPlanner">Top</Link> |{" "}
+        {/* 将来的に追加される可能性のあるページへのリンク */}
+        {/* <Link to="/travelPlanner/history">履歴</Link> |{" "}
+        <Link to="/travelPlanner/saved">保存済みプラン</Link> */}
+      </Box>
+      <hr />
+      <Box mt={4}>
+        <Outlet />
+      </Box>
+      <TanStackRouterDevtools />
     </Container>
   );
 }
