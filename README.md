@@ -2,6 +2,12 @@
 
 ## 開発環境構築
 
+### リポジトリをクローンする
+
+```sh
+git clone git@github.com:DaigakuNakayoshi/travelhelperkun-front.git
+```
+
 ### bun のインストール
 
 https://bun.sh/docs/installation
@@ -10,6 +16,12 @@ https://bun.sh/docs/installation
 
 ```sh
 bun install
+```
+
+### 開発環境へ移動
+
+```sh
+cd travelhelperkun-front
 ```
 
 ### dev サーバー起動
@@ -29,4 +41,25 @@ bun run preview
 
 ```sh
 bun run check
+```
+
+## サンプルページの閲覧方法
+
+サーバーを立ち上げる
+
+```sh
+bun run dev
+```
+
+### CLI画面にてオプション入力の表示が出るため、下記を選択することでWebページが開く
+
+```sh
+h（helpの表示）
+o（Web画面への遷移）
+```
+
+### ブラウザ（e.g. Chrome）に遷移するため、下記URLを指定
+
+```sh
+http://localhost:5173/samples/
 ```
