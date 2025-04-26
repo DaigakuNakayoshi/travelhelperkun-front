@@ -1,6 +1,6 @@
 import { GoogleMapWithDirection } from "@/components/samples/agent/GoogleMapWithDirection";
 import type { TravelPlan } from "@/hooks/travel/useTravelPlanner";
-import { Box, Center, Spinner, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 interface TravelPlanResultProps {
   plan: TravelPlan | null;
@@ -9,11 +9,7 @@ interface TravelPlanResultProps {
 
 export function TravelPlanResult({ plan, isLoading }: TravelPlanResultProps) {
   if (isLoading) {
-    return (
-      <Center>
-        <Spinner />
-      </Center>
-    );
+    return <></>;
   }
 
   if (!plan) {

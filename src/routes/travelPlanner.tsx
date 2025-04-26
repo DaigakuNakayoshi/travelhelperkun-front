@@ -34,8 +34,6 @@ function RouteComponent() {
           onClick={generatePlan}
           size="md"
           px={10}
-          // bg={buttonBg}
-          // borderColor={borderColor}
           borderWidth="1px"
           loading={isLoading}
           disabled={!isValid}

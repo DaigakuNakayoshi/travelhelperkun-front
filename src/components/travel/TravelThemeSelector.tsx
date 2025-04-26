@@ -63,7 +63,6 @@ export function TravelThemeSelector({
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const headerBg = useColorModeValue("gray.50", "gray.700");
   const selectedBorderColor = "green.500";
-
   return (
     <Box mb={6}>
       <Heading
@@ -75,7 +74,9 @@ export function TravelThemeSelector({
         mb={4}
       >
         旅行のテーマ
-        <Text as="span" color="red.500" ml={1}>*</Text>
+        <Text as="span" color="red.500" ml={1}>
+          *
+        </Text>
       </Heading>
 
       <Box bg={headerBg} p={4} mb={4} textAlign="center" fontWeight="bold">

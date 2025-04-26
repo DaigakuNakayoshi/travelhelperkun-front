@@ -1,5 +1,13 @@
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { Box, Field, Heading, Input, NativeSelect, Table, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Field,
+  Heading,
+  Input,
+  NativeSelect,
+  Table,
+  Text,
+} from "@chakra-ui/react";
 
 export interface TravelFormData {
   departureLocation: string;
@@ -101,7 +109,9 @@ export function BasicInfoForm({ formData, onInputChange }: BasicInfoFormProps) {
           <Table.Row>
             <Table.Cell fontWeight="bold" textAlign="right" width="30%">
               出発地点
-              <Text as="span" color="red.500" ml={1}>*</Text>
+              <Text as="span" color="red.500" ml={1}>
+                *
+              </Text>
             </Table.Cell>
             <Table.Cell>
               <Field.Root>
@@ -126,7 +136,9 @@ export function BasicInfoForm({ formData, onInputChange }: BasicInfoFormProps) {
           <Table.Row>
             <Table.Cell fontWeight="bold" textAlign="right">
               旅行地点
-              <Text as="span" color="red.500" ml={1}>*</Text>
+              <Text as="span" color="red.500" ml={1}>
+                *
+              </Text>
             </Table.Cell>
             <Table.Cell>
               <Field.Root>
@@ -151,7 +163,9 @@ export function BasicInfoForm({ formData, onInputChange }: BasicInfoFormProps) {
           <Table.Row>
             <Table.Cell fontWeight="bold" textAlign="right">
               人数
-              <Text as="span" color="red.500" ml={1}>*</Text>
+              <Text as="span" color="red.500" ml={1}>
+                *
+              </Text>
             </Table.Cell>
             <Table.Cell>
               <Field.Root>
@@ -176,7 +190,9 @@ export function BasicInfoForm({ formData, onInputChange }: BasicInfoFormProps) {
           <Table.Row>
             <Table.Cell fontWeight="bold" textAlign="right">
               日数
-              <Text as="span" color="red.500" ml={1}>*</Text>
+              <Text as="span" color="red.500" ml={1}>
+                *
+              </Text>
             </Table.Cell>
             <Table.Cell>
               <Field.Root>
@@ -230,10 +246,8 @@ export function BasicInfoForm({ formData, onInputChange }: BasicInfoFormProps) {
               <Field.Root>
                 <Input
                   placeholder="イベント、場所等"
-                  value={formData.userInterest}
-                  onChange={(e) =>
-                    onInputChange("userInterest", e.target.value)
-                  }
+                  defaultValue={formData.userInterest}
+                  onBlur={(e) => onInputChange("userInterest", e.target.value)}
                   width="400px"
                 />
               </Field.Root>
