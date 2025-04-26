@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TravelPlannerImport } from './routes/travelPlanner'
 import { Route as SamplesImport } from './routes/samples'
 import { Route as SamplesIndexImport } from './routes/samples/index'
 import { Route as SamplesChakraUiIndexImport } from './routes/samples/chakra-ui/index'
@@ -27,6 +28,12 @@ const SamplesDirectionMapsIndexLazyImport = createFileRoute(
 const SamplesAgentIndexLazyImport = createFileRoute('/samples/agent/')()
 
 // Create/Update Routes
+
+const TravelPlannerRoute = TravelPlannerImport.update({
+  id: '/travelPlanner',
+  path: '/travelPlanner',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const SamplesRoute = SamplesImport.update({
   id: '/samples',
@@ -86,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/samples'
       fullPath: '/samples'
       preLoaderRoute: typeof SamplesImport
+      parentRoute: typeof rootRoute
+    }
+    '/travelPlanner': {
+      id: '/travelPlanner'
+      path: '/travelPlanner'
+      fullPath: '/travelPlanner'
+      preLoaderRoute: typeof TravelPlannerImport
       parentRoute: typeof rootRoute
     }
     '/samples/': {
@@ -158,6 +172,7 @@ const SamplesRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '/samples': typeof SamplesRouteWithChildren
+  '/travelPlanner': typeof TravelPlannerRoute
   '/samples/': typeof SamplesIndexRoute
   '/samples/about': typeof SamplesAboutIndexRoute
   '/samples/chakra-ui': typeof SamplesChakraUiIndexRoute
@@ -167,6 +182,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/travelPlanner': typeof TravelPlannerRoute
   '/samples': typeof SamplesIndexRoute
   '/samples/about': typeof SamplesAboutIndexRoute
   '/samples/chakra-ui': typeof SamplesChakraUiIndexRoute
@@ -178,6 +194,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/samples': typeof SamplesRouteWithChildren
+  '/travelPlanner': typeof TravelPlannerRoute
   '/samples/': typeof SamplesIndexRoute
   '/samples/about/': typeof SamplesAboutIndexRoute
   '/samples/chakra-ui/': typeof SamplesChakraUiIndexRoute
@@ -190,6 +207,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/samples'
+    | '/travelPlanner'
     | '/samples/'
     | '/samples/about'
     | '/samples/chakra-ui'
@@ -198,6 +216,7 @@ export interface FileRouteTypes {
     | '/samples/maps'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/travelPlanner'
     | '/samples'
     | '/samples/about'
     | '/samples/chakra-ui'
@@ -207,6 +226,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/samples'
+    | '/travelPlanner'
     | '/samples/'
     | '/samples/about/'
     | '/samples/chakra-ui/'
@@ -218,10 +238,12 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   SamplesRoute: typeof SamplesRouteWithChildren
+  TravelPlannerRoute: typeof TravelPlannerRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   SamplesRoute: SamplesRouteWithChildren,
+  TravelPlannerRoute: TravelPlannerRoute,
 }
 
 export const routeTree = rootRoute
@@ -234,7 +256,8 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/samples"
+        "/samples",
+        "/travelPlanner"
       ]
     },
     "/samples": {
@@ -247,6 +270,9 @@ export const routeTree = rootRoute
         "/samples/directionMaps/",
         "/samples/maps/"
       ]
+    },
+    "/travelPlanner": {
+      "filePath": "travelPlanner.tsx"
     },
     "/samples/": {
       "filePath": "samples/index.tsx",
