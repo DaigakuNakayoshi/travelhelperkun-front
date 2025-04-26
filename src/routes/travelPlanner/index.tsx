@@ -2,7 +2,7 @@ import { BasicInfoForm } from "@/components/travel/BasicInfoForm";
 import { TravelPlanResult } from "@/components/travel/TravelPlanResult";
 import { TravelThemeSelector } from "@/components/travel/TravelThemeSelector";
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { useTravelPlanner } from "@/hooks/travel/useTravelPlanner";
+import { useTravelPlannerContext } from "@/contexts/TravelPlannerContext";
 import { Button, Center, Container } from "@chakra-ui/react";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -19,7 +19,7 @@ function RouteComponent() {
     handleInputChange,
     handleThemeSelect,
     generatePlan,
-  } = useTravelPlanner();
+  } = useTravelPlannerContext();
 
   return (
     <Container maxW="container.lg" py={6}>
