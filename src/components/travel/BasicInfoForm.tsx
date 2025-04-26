@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { Box, Field, Heading, NativeSelect, Table } from "@chakra-ui/react";
+import { Box, Field, Heading, Input, NativeSelect, Table } from "@chakra-ui/react";
 
 export interface TravelFormData {
   departureLocation: string;
@@ -7,6 +7,8 @@ export interface TravelFormData {
   numberOfPeople: string;
   numberOfDays: string;
   travelTheme: string;
+  selectedMonth: string;
+  userInterest: string;
 }
 
 interface BasicInfoFormProps {
@@ -74,6 +76,8 @@ const daysOptions = [
   "4泊5日",
   "5泊以上",
 ];
+
+const months = Array.from({ length: 12 }, (_, i) => `${i + 1}月`);
 
 export function BasicInfoForm({ formData, onInputChange }: BasicInfoFormProps) {
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -187,6 +191,47 @@ export function BasicInfoForm({ formData, onInputChange }: BasicInfoFormProps) {
                     ))}
                   </NativeSelect.Field>
                 </NativeSelect.Root>
+              </Field.Root>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell fontWeight="bold" textAlign="right">
+              旅行希望月
+            </Table.Cell>
+            <Table.Cell>
+              <Field.Root>
+                <NativeSelect.Root width="200px">
+                  <NativeSelect.Field
+                    value={formData.selectedMonth}
+                    onChange={(e) =>
+                      onInputChange("selectedMonth", e.target.value)
+                    }
+                  >
+                    <option value="">月を選択▼</option>
+                    {months.map((month) => (
+                      <option key={month} value={month}>
+                        {month}
+                      </option>
+                    ))}
+                  </NativeSelect.Field>
+                </NativeSelect.Root>
+              </Field.Root>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell fontWeight="bold" textAlign="right">
+              気になること
+            </Table.Cell>
+            <Table.Cell>
+              <Field.Root>
+                <Input
+                  placeholder="イベント、場所等"
+                  value={formData.userInterest}
+                  onChange={(e) =>
+                    onInputChange("userInterest", e.target.value)
+                  }
+                  width="400px"
+                />
               </Field.Root>
             </Table.Cell>
           </Table.Row>

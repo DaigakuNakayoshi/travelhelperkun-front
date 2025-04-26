@@ -20,6 +20,8 @@ function RouteComponent() {
     numberOfPeople: "",
     numberOfDays: "",
     travelTheme: "",
+    selectedMonth: "",
+    userInterest: "",
   });
 
   const handleInputChange = (field: keyof TravelFormData, value: string) => {
