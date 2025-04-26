@@ -10,7 +10,6 @@ import {
   Heading,
   Image,
   NativeSelect,
-  RadioGroup,
   Table,
   Text,
 } from "@chakra-ui/react";
@@ -148,10 +147,6 @@ function RouteComponent() {
     setFormData({ ...formData, travelTheme: themeId });
     console.log(themeId);
     console.log(formData);
-  };
-
-  const resetTheme = () => {
-    setFormData({ ...formData, travelTheme: "" });
   };
 
   const handleSubmit = () => {
