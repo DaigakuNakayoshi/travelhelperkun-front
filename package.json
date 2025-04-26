@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.2.4",
-    "@chakra-ui/react": "^3.2.0",
+    "@chakra-ui/react": "^3.16.1",
     "@emotion/react": "^11.13.5",
     "@langchain/google-genai": "^0.1.6",
     "@tanstack/react-router": "^1.82.2",
