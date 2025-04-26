@@ -29,44 +29,51 @@ interface TravelFormData {
   travelTheme: string;
 }
 
-// TODO: いい感じの写真を持ってくる
 const travelThemes = [
   {
-    id: "first-kyoto",
-    name: "はじめての京都旅",
+    id: "activity",
+    name: "アクティビティ中心",
+    imageUrl: "/images/activity.png",
+  },
+  {
+    id: "relaxing",
+    name: "ゆっくりのんびり旅",
     imageUrl: "/images/kyoto.png",
   },
   {
-    id: "history-culture",
-    name: "歴史・文化を感じる旅",
+    id: "luxury",
+    name: "豪華リッチな旅",
     imageUrl: "/images/kyoto.png",
   },
-  { id: "family", name: "家族で楽しむ旅", imageUrl: "/images/family.png" },
-  { id: "art", name: "芸術に触れる旅", imageUrl: "/images/art.jpg" },
   {
-    id: "food",
-    name: "食を味わう旅",
+    id: "budget",
+    name: "賢く楽しむお得旅",
+    imageUrl: "/images/kyoto.png",
+  },
+  {
+    id: "traditional",
+    name: "日本の風情を味わう旅",
+    imageUrl: "/images/kyoto.png",
+  },
+  {
+    id: "gourmet",
+    name: "美食を極める旅",
     imageUrl: "/images/food.png",
   },
   {
-    id: "kyoto-craft",
-    name: "京土産を探す旅",
+    id: "instagram",
+    name: "SNS映え重視の旅",
+    imageUrl: "/images/art.jpg",
+  },
+  {
+    id: "history-culture",
+    name: "歴史と文化を学ぶ旅",
     imageUrl: "/images/kyoto.png",
   },
   {
-    id: "arashiyama",
-    name: "嵐山エリア快適観光の旅",
+    id: "nature",
+    name: "自然を満喫する旅",
     imageUrl: "/images/kyoto.png",
-  },
-  {
-    id: "higashiyama",
-    name: "東山エリア快適観光の旅",
-    imageUrl: "/images/kyoto.png",
-  },
-  {
-    id: "activity",
-    name: "アクティビティ",
-    imageUrl: "/images/activity.png",
   },
 ];
 
@@ -294,12 +301,6 @@ function RouteComponent() {
         <Box bg={headerBg} p={4} mb={4} textAlign="center" fontWeight="bold">
           好みのテーマ
         </Box>
-
-        {formData.travelTheme === "kyoto-food" && (
-          <Text textAlign="center" mb={4} fontSize="sm">
-            「京都の食を味わう旅」を選択される場合は、下の「基本情報の設定」から「出発時間」を指定してください。
-          </Text>
-        )}
 
         <Grid templateColumns="repeat(3, 1fr)" gap={4} mb={6}>
           {travelThemes.map((theme) => (
