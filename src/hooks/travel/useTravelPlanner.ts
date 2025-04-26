@@ -1,6 +1,6 @@
 import { agent } from "@/agents/travelPlanner";
 import type { TravelFormData } from "@/components/travel/BasicInfoForm";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 
 export type TravelPlan = {
   title: string;
