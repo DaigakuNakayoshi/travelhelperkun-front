@@ -1,40 +1,25 @@
 import { BasicInfoForm } from "@/components/travel/BasicInfoForm";
-import type { TravelFormData } from "@/components/travel/BasicInfoForm";
+import { TravelPlanResult } from "@/components/travel/TravelPlanResult";
 import { TravelThemeSelector } from "@/components/travel/TravelThemeSelector";
 import { useColorModeValue } from "@/components/ui/color-mode";
+import { useTravelPlanner } from "@/hooks/travel/useTravelPlanner";
 import { Button, Center, Container } from "@chakra-ui/react";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 
 export const Route = createFileRoute("/travelPlanner")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const buttonBg = useColorModeValue("gray.100", "gray.600");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-
-  const [formData, setFormData] = useState<TravelFormData>({
-    departureLocation: "",
-    destinationLocation: "",
-    numberOfPeople: "",
-    numberOfDays: "",
-    travelTheme: "",
-    selectedMonth: "",
-    userInterest: "",
-  });
-
-  const handleInputChange = (field: keyof TravelFormData, value: string) => {
-    setFormData({ ...formData, [field]: value });
-  };
-
-  const handleThemeSelect = (themeId: string) => {
-    setFormData({ ...formData, travelTheme: themeId });
-  };
-
-  const handleSubmit = () => {
-    console.log(formData);
-  };
+  const {
+    formData,
+    plan,
+    isLoading,
+    isValid,
+    handleInputChange,
+    handleThemeSelect,
+    generatePlan,
+  } = useTravelPlanner();
 
   return (
     <Container maxW="container.lg" py={6}>
@@ -46,16 +31,20 @@ function RouteComponent() {
 
       <Center mt={8} mb={4}>
         <Button
-          onClick={handleSubmit}
+          onClick={generatePlan}
           size="md"
           px={10}
-          bg={buttonBg}
-          borderColor={borderColor}
+          // bg={buttonBg}
+          // borderColor={borderColor}
           borderWidth="1px"
+          loading={isLoading}
+          disabled={!isValid}
         >
           生成ボタン
         </Button>
       </Center>
+
+      <TravelPlanResult plan={plan} isLoading={isLoading} />
     </Container>
   );
 }

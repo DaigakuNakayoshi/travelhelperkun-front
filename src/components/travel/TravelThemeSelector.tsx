@@ -1,5 +1,5 @@
 import { useColorModeValue } from "@/components/ui/color-mode";
-import { Box, Grid, GridItem, Heading, Image } from "@chakra-ui/react";
+import { Box, Grid, GridItem, Heading, Image, Text } from "@chakra-ui/react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import type { TravelFormData } from "./BasicInfoForm";
 
@@ -74,7 +74,8 @@ export function TravelThemeSelector({
         borderColor={borderColor}
         mb={4}
       >
-        旅行のテーマ（※下から選択）
+        旅行のテーマ
+        <Text as="span" color="red.500" ml={1}>*</Text>
       </Heading>
 
       <Box bg={headerBg} p={4} mb={4} textAlign="center" fontWeight="bold">
