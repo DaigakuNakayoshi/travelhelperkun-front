@@ -17,17 +17,17 @@ const travelThemes = [
   {
     id: "relaxing",
     name: "ゆっくりのんびり旅",
-    imageUrl: "/images/kyoto.png",
+    imageUrl: "/images/nonbiri.png",
   },
   {
     id: "luxury",
     name: "豪華リッチな旅",
-    imageUrl: "/images/kyoto.png",
+    imageUrl: "/images/zeitaku.png",
   },
   {
     id: "budget",
     name: "賢く楽しむお得旅",
-    imageUrl: "/images/kyoto.png",
+    imageUrl: "/images/sessei.png",
   },
   {
     id: "traditional",
@@ -47,12 +47,12 @@ const travelThemes = [
   {
     id: "history-culture",
     name: "歴史と文化を学ぶ旅",
-    imageUrl: "/images/kyoto.png",
+    imageUrl: "/images/nara.png",
   },
   {
     id: "nature",
     name: "自然を満喫する旅",
-    imageUrl: "/images/kyoto.png",
+    imageUrl: "/images/mtfuji.png",
   },
 ];
 
